@@ -1,0 +1,31 @@
+<.header>
+  Question <%= @question.id %>
+  <:subtitle>This is a question record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/questions/#{@question}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit question</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name"><%= @question.name %></:item>
+  <:item title="Yes grade"><%= @question.yes_grade %></:item>
+  <:item title="No grade"><%= @question.no_grade %></:item>
+  <:item title="No has next question"><%= @question.no_has_next_question %></:item>
+  <:item title="Yes has next question"><%= @question.yes_has_next_question %></:item>
+  <:item title="Next question"><%= @question.next_question_id %></:item>
+</.list>
+
+<.back navigate={~p"/questions"}>Back to questions</.back>
+
+<.modal :if={@live_action == :edit} id="question-modal" show on_cancel={JS.patch(~p"/questions/#{@question}")}>
+  <.live_component
+    module={QappWeb.QuestionLive.FormComponent}
+    id={@question.id}
+    title={@page_title}
+    action={@live_action}
+    question={@question}
+    patch={~p"/questions/#{@question}"}
+  />
+</.modal>
